@@ -24,13 +24,14 @@ services:
       - NODE_ENV=production
       - VITE_API_URL=http://match-api:8008
     depends_on:
-      - match-api
+      match-api:
+        condition: service_started
     networks:
       - match-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.match-frontend.rule=Host(`match.dokploy.app`)"
-      - "traefik.http.services.match-frontend.loadbalancer.server.port=3001"  # ← fix
+      - "traefik.http.services.match-frontend.loadbalancer.server.port=3001"
 
 networks:
   match-network:
