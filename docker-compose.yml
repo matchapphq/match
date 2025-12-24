@@ -16,6 +16,7 @@ services:
       - ACCESS_JWT_SIGN_KEY=${ACCESS_JWT_SIGN_KEY}
       - REFRESH_JWT_SIGN_KEY=${REFRESH_JWT_SIGN_KEY}
       - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_PORT=${DATABASE_PORT}
     networks:
       - match-network
     labels:
