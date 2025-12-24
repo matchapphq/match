@@ -1,0 +1,37 @@
+services:
+  match-api:
+    build:
+      context: ./match-api
+      dockerfile: Dockerfile
+    ports:
+      - "8008:8008"  # Keep your port
+    environment:
+      - NODE_ENV=production
+    networks:
+      - match-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.match-api.rule=Host(`api.match.dokploy.app`)"
+      - "traefik.http.services.match-api.loadbalancer.server.port=8008"
+
+  match:
+    build:
+      context: ./match-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=http://match-api:8008
+    depends_on:
+      - match-api
+    networks:
+      - match-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.match-frontend.rule=Host(`match.dokploy.app`)"
+      - "traefik.http.services.match-frontend.loadbalancer.server.port=5173"
+
+networks:
+  match-network:
+    driver: bridge
