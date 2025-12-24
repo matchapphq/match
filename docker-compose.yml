@@ -4,7 +4,7 @@ services:
       context: ./match-api
       dockerfile: Dockerfile
     ports:
-      - "8008:8008"  # Keep your port
+      - "8008:8008"
     environment:
       - NODE_ENV=production
     networks:
@@ -30,7 +30,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.match-frontend.rule=Host(`match.dokploy.app`)"
-      - "traefik.http.services.match-frontend.loadbalancer.server.port=5173"
+      - "traefik.http.services.match-frontend.loadbalancer.server.port=3001"  # ← fix
 
 networks:
   match-network:
