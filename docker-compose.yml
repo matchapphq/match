@@ -7,6 +7,14 @@ services:
       - "8008:8008"
     environment:
       - NODE_ENV=production
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - REFRESH_SECRET_KEY=${REFRESH_SECRET_KEY}
+      - ACCESS_JWT_SIGN_KEY=${ACCESS_JWT_SIGN_KEY}
+      - REFRESH_JWT_SIGN_KEY=${REFRESH_JWT_SIGN_KEY}
     networks:
       - match-network
     labels:
