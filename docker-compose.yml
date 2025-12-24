@@ -15,6 +15,7 @@ services:
       - REFRESH_SECRET_KEY=${REFRESH_SECRET_KEY}
       - ACCESS_JWT_SIGN_KEY=${ACCESS_JWT_SIGN_KEY}
       - REFRESH_JWT_SIGN_KEY=${REFRESH_JWT_SIGN_KEY}
+      - DATABASE_URL=${DATABASE_URL}
     networks:
       - match-network
     labels:
