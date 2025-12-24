@@ -1,0 +1,9 @@
+[submodule "match-api"]
+	path = match-api
+	url = https://github.com/matchapphq/match-api.git
+[submodule "match-frontend"]
+	path = match-frontend
+	url = https://github.com/matchapphq/match-frontend.git
+[submodule "match-mobile"]
+	path = match-mobile
+	url = https://github.com/matchapphq/match-mobile.git
