@@ -28,6 +28,8 @@ services:
     build:
       context: ./match-frontend
       dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://match-api:8008
     ports:
       - "3001:3001"
     environment:
