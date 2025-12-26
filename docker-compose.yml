@@ -19,31 +19,22 @@ services:
       - DATABASE_PORT=${DATABASE_PORT}
     networks:
       - match-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.match-api.rule=Host(`api.match.dokploy.app`)"
-      - "traefik.http.services.match-api.loadbalancer.server.port=8008"
 
   match:
     build:
       context: ./match-frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://match-api:8008
+        - VITE_API_URL=/api
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=production
-      - VITE_API_URL=http://match-api:8008
     depends_on:
       match-api:
         condition: service_started
     networks:
       - match-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.match-frontend.rule=Host(`match.dokploy.app`)"
-      - "traefik.http.services.match-frontend.loadbalancer.server.port=3001"
 
 networks:
   match-network:
