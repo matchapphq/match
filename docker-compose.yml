@@ -23,9 +23,23 @@ services:
       - FRONTEND_URL=${FRONTEND_URL}
       - STRIPE_PRICE_MONTHLY=${STRIPE_PRICE_MONTHLY}
       - STRIPE_PRICE_ANNUAL=${STRIPE_PRICE_ANNUAL}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
     networks:
       - match-network
       
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - match-network
+
   match:
     build:
       context: ./match-frontend
@@ -46,3 +60,6 @@ services:
 networks:
   match-network:
     driver: bridge
+
+volumes:
+  redis_data:
