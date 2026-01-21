@@ -31,15 +31,15 @@ services:
     networks:
       - match-network
       
-  redis:
-    image: redis:alpine
-    command: redis-server --appendonly yes
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - match-network
+  # redis:
+  #   image: redis:alpine
+  #   command: redis-server --appendonly yes
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - match-network
 
   match:
     build:
