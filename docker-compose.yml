@@ -26,6 +26,9 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - QR_SECRET=${QR_SECRET}
+      - LOCATIONIQ_KEY=${LOCATIONIQ_KEY}
+      - PORT=${PORT}
     networks:
       - match-network
       
