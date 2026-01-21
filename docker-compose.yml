@@ -29,6 +29,7 @@ services:
       - QR_SECRET=${QR_SECRET}
       - LOCATIONIQ_KEY=${LOCATIONIQ_KEY}
       - PORT=${PORT}
+      - REDIS_URL=${REDIS_URL}
     networks:
       - match-network
       
