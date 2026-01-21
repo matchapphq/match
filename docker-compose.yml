@@ -25,7 +25,7 @@ services:
       - STRIPE_PRICE_ANNUAL=${STRIPE_PRICE_ANNUAL}
     networks:
       - match-network
-
+      
   match:
     build:
       context: ./match-frontend
@@ -42,6 +42,7 @@ services:
     networks:
       - match-network
 
+    
 networks:
   match-network:
     driver: bridge
