@@ -57,9 +57,9 @@ services:
       - SMTP_SEND_MAIL=${SMTP_SEND_MAIL}
     healthcheck:
         test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-        interval: 30s
-        timeout: 10s
-        retries: 3
+        interval: 10s
+        timeout: 5s
+        retries: 2
 
   # redis:
   #   image: redis:alpine
