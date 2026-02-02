@@ -32,76 +32,34 @@ services:
       - REDIS_URL=${REDIS_URL}
     networks:
       - match-network
+    depends_on:
+        mail-worker:
+            condition: service_healthy
 
-  # notification-worker:
-  #   build:
-  #     context: ./match-api
-  #     dockerfile: Dockerfile
-  #   entrypoint: ["bun", "run", "src/workers/notification.worker.ts"]
-  #   environment:
-  #     - NODE_ENV=production
-  #     - DATABASE_HOST=${DATABASE_HOST}
-  #     - DATABASE_USER=${DATABASE_USER}
-  #     - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-  #     - DATABASE_NAME=${DATABASE_NAME}
-  #     - SECRET_KEY=${SECRET_KEY}
-  #     - REFRESH_SECRET_KEY=${REFRESH_SECRET_KEY}
-  #     - ACCESS_JWT_SIGN_KEY=${ACCESS_JWT_SIGN_KEY}
-  #     - REFRESH_JWT_SIGN_KEY=${REFRESH_JWT_SIGN_KEY}
-  #     - DATABASE_URL=${DATABASE_URL}
-  #     - DATABASE_PORT=${DATABASE_PORT}
-  #     - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-  #     - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
-  #     - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-  #     - FRONTEND_URL=${FRONTEND_URL}
-  #     - STRIPE_PRICE_MONTHLY=${STRIPE_PRICE_MONTHLY}
-  #     - STRIPE_PRICE_ANNUAL=${STRIPE_PRICE_ANNUAL}
-  #     - REDIS_HOST=redis
-  #     - REDIS_PORT=6379
-  #     - REDIS_PASSWORD=${REDIS_PASSWORD}
-  #     - QR_SECRET=${QR_SECRET}
-  #     - LOCATIONIQ_KEY=${LOCATIONIQ_KEY}
-  #     - REDIS_URL=redis://redis:6379
-  #   depends_on:
-  #     - redis
-  #     - match-api
-  #   networks:
-  #     - match-network
-
-  # stripe-worker:
-  #   build:
-  #     context: ./match-api
-  #     dockerfile: Dockerfile
-  #   entrypoint: ["bun", "run", "src/workers/stripe.worker.ts"]
-  #   environment:
-  #     - NODE_ENV=production
-  #     - DATABASE_HOST=${DATABASE_HOST}
-  #     - DATABASE_USER=${DATABASE_USER}
-  #     - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-  #     - DATABASE_NAME=${DATABASE_NAME}
-  #     - SECRET_KEY=${SECRET_KEY}
-  #     - REFRESH_SECRET_KEY=${REFRESH_SECRET_KEY}
-  #     - ACCESS_JWT_SIGN_KEY=${ACCESS_JWT_SIGN_KEY}
-  #     - REFRESH_JWT_SIGN_KEY=${REFRESH_JWT_SIGN_KEY}
-  #     - DATABASE_URL=${DATABASE_URL}
-  #     - DATABASE_PORT=${DATABASE_PORT}
-  #     - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-  #     - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
-  #     - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-  #     - FRONTEND_URL=${FRONTEND_URL}
-  #     - STRIPE_PRICE_MONTHLY=${STRIPE_PRICE_MONTHLY}
-  #     - STRIPE_PRICE_ANNUAL=${STRIPE_PRICE_ANNUAL}
-  #     - REDIS_HOST=redis
-  #     - REDIS_PORT=6379
-  #     - REDIS_PASSWORD=${REDIS_PASSWORD}
-  #     - QR_SECRET=${QR_SECRET}
-  #     - LOCATIONIQ_KEY=${LOCATIONIQ_KEY}
-  #     - REDIS_URL=redis://redis:6379
-  #   depends_on:
-  #     - redis
-  #     - match-api
-  #   networks:
-  #     - match-network
+  mail-worker:
+    build:
+      context: ./match-api/services/mail-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_SEND_MAIL=${SMTP_SEND_MAIL}
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
 
   # redis:
   #   image: redis:alpine
