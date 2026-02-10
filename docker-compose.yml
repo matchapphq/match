@@ -42,6 +42,8 @@ services:
     depends_on:
         mail-worker:
             condition: service_started
+        redis:
+            condition: service_started
 
   mail-worker:
     build:
@@ -53,6 +55,7 @@ services:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
+      - REDIS_URL=redis://redis:6380
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -62,16 +65,33 @@ services:
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - SMTP_SEND_MAIL=${SMTP_SEND_MAIL}
+    networks:
+      - match-network
+    depends_on:
+        redis:
+            condition: service_healthy
 
-  # redis:
-  #   image: redis:alpine
-  #   command: redis-server --appendonly yes
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - redis_data:/data
-  #   networks:
-  #     - match-network
+  redis-match:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: >
+      redis-server
+      --port 6380
+      --appendonly yes
+      --maxmemory-policy noeviction
+      --maxmemory 2gb
+      --tcp-keepalive 60
+    ports:
+      - "127.0.0.1:6380:6380"
+    volumes:
+      - redis_data:/data
+    networks:
+      - match-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "6380", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
   match:
     build:
