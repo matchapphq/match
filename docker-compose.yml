@@ -42,7 +42,7 @@ services:
     depends_on:
         mail-worker:
             condition: service_started
-        redis:
+        redis-match:
             condition: service_started
 
   mail-worker:
@@ -55,7 +55,7 @@ services:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
-      - REDIS_URL=redis://redis:6380
+      - REDIS_URL=${REDIS_URL}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -68,7 +68,7 @@ services:
     networks:
       - match-network
     depends_on:
-        redis:
+        redis-match:
             condition: service_healthy
 
   redis-match:
