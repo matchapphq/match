@@ -39,6 +39,7 @@ services:
       - SMTP_SEND_NAME=${SMTP_SEND_NAME}
     networks:
       - match-network
+      - dokploy-network
     depends_on:
         mail-worker:
             condition: service_started
@@ -67,6 +68,7 @@ services:
       - SMTP_SEND_MAIL=${SMTP_SEND_MAIL}
     networks:
       - match-network
+      - dokploy-network
     depends_on:
         redis-match:
             condition: service_healthy
@@ -108,11 +110,14 @@ services:
         condition: service_started
     networks:
       - match-network
+      - dokploy-network
 
     
 networks:
+  dokploy-network:
+    external: true
   match-network:
-    driver: bridge
+    driver: bridge 
 
 volumes:
   redis_data:
