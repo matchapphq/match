@@ -1,3 +1,7 @@
 Mttest2/
 app-designs/
 node_modules/
+.vscode/
+.zed/
+.idea/
+.DS_Store
