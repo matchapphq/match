@@ -50,6 +50,8 @@ services:
     build:
       context: ./match-api/services/mail-service
       dockerfile: Dockerfile
+    env_file:
+        - .env
     environment:
       - NODE_ENV=production
       - DATABASE_HOST=${DATABASE_HOST}
