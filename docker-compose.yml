@@ -96,6 +96,18 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
+    
+  redisinsght:
+    image: redis/redisinsight:latest
+    ports:
+        - "5540:5540"
+    networks:
+        - dokploy-network
+    restart: unless-stopped
+    environment:
+         - REDISINSIGHT_REDIS__1__HOST=${REDIS_HOST}  # Or your Redis service hostname
+         - REDISINSIGHT_REDIS__1__PORT=${REDIS_PORT}  # Or your Redis service port
+         - REDISINSIGHT_REDIS__1__PASSWORD=${REDIS_PASSWORD}
 
   match:
     build:
