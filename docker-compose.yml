@@ -37,6 +37,7 @@ services:
       - SMTP_SECURE=${SMTP_SECURE}
       - SMTP_SEND_MAIL=${SMTP_SEND_MAIL}
       - SMTP_SEND_NAME=${SMTP_SEND_NAME}
+      - BUG_REPORT_EMAIL=${BUG_REPORT_EMAIL}
     networks:
       - match-network
       - dokploy-network
@@ -68,6 +69,7 @@ services:
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - SMTP_SEND_MAIL=${SMTP_SEND_MAIL}
+      - BUG_REPORT_EMAIL=${BUG_REPORT_EMAIL}
     networks:
       - match-network
       - dokploy-network
