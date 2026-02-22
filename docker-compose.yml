@@ -45,6 +45,9 @@ services:
       - S3_REGION=${S3_REGION}
       - S3_BUCKET=${S3_BUCKET}
       - S3_PUBLIC_URL=${S3_PUBLIC_URL}
+      - APPLE_CLIENT_ID=${APPLE_CLIENT_ID}
+      - APPLE_CLIENT_IDS=${APPLE_CLIENT_IDS}
+      - GOOGLE_CLIENT_IDS=${GOOGLE_CLIENT_IDS}
     networks:
       - match-network
       - dokploy-network
