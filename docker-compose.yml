@@ -117,8 +117,8 @@ services:
         - dokploy-network
     restart: unless-stopped
     environment:
-         - REDISINSIGHT_REDIS__1__HOST=${REDIS_HOST}  # Or your Redis service hostname
-         - REDISINSIGHT_REDIS__1__PORT=${REDIS_PORT}  # Or your Redis service port
+         - REDISINSIGHT_REDIS__1__HOST=${REDIS_HOST}
+         - REDISINSIGHT_REDIS__1__PORT=${REDIS_PORT}
          - REDISINSIGHT_REDIS__1__PASSWORD=${REDIS_PASSWORD}
 
   match:
