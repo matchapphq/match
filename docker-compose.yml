@@ -48,6 +48,7 @@ services:
       - APPLE_CLIENT_ID=${APPLE_CLIENT_ID}
       - APPLE_CLIENT_IDS=${APPLE_CLIENT_IDS}
       - GOOGLE_CLIENT_IDS=${GOOGLE_CLIENT_IDS}
+      - API_SPORTS_KEY=${API_SPORTS_KEY}
     networks:
       - match-network
       - dokploy-network
