@@ -57,7 +57,9 @@ services:
             condition: service_started
         redis-match:
             condition: service_started
-    replicas: 2
+    deploy:
+        mode: replicated
+        replicas: 2
 
   mail-worker:
     build:
