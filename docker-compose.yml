@@ -151,40 +151,40 @@ services:
     networks:
       - dokploy-network
     
-  traefik:
-    image: traefik:latest
-    restart: unless-stopped
-    command:
-      - --api.dashboard=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - dokploy-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.matchapp.fr`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
-      - "traefik.http.routers.traefik-dashboard.service=api@internal"
-      - "traefik.http.routers.traefik-dashboard.tls=true"
+  # traefik:
+  #   image: traefik:latest
+  #   restart: unless-stopped
+  #   command:
+  #     - --api.dashboard=true
+  #     - --providers.docker=true
+  #     - --providers.docker.exposedbydefault=false
+  #     - --entrypoints.web.address=:80
+  #     - --entrypoints.websecure.address=:443
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   networks:
+  #     - dokploy-network
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.matchapp.fr`)"
+  #     - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+  #     - "traefik.http.routers.traefik-dashboard.service=api@internal"
+  #     - "traefik.http.routers.traefik-dashboard.tls=true"
 
-      - "traefik.http.routers.match.rule=Host(`matchapp.fr`)"
-      - "traefik.http.routers.match.entrypoints=websecure"
-      - "traefik.http.routers.match.service=match"
-      - "traefik.http.routers.match.tls=true"
-      - "traefik.http.services.match.loadbalancer.server.port=3001"
+  #     - "traefik.http.routers.match.rule=Host(`matchapp.fr`)"
+  #     - "traefik.http.routers.match.entrypoints=websecure"
+  #     - "traefik.http.routers.match.service=match"
+  #     - "traefik.http.routers.match.tls=true"
+  #     - "traefik.http.services.match.loadbalancer.server.port=3001"
 
-      - "traefik.http.routers.match-api.rule=Host(`api.matchapp.fr`)"
-      - "traefik.http.routers.match-api.entrypoints=websecure"
-      - "traefik.http.routers.match-api.service=match-api"
-      - "traefik.http.routers.match-api.tls=true"
-      - "traefik.http.services.match-api.loadbalancer.server.port=8008"
+  #     - "traefik.http.routers.match-api.rule=Host(`api.matchapp.fr`)"
+  #     - "traefik.http.routers.match-api.entrypoints=websecure"
+  #     - "traefik.http.routers.match-api.service=match-api"
+  #     - "traefik.http.routers.match-api.tls=true"
+  #     - "traefik.http.services.match-api.loadbalancer.server.port=8008"
 networks:
   dokploy-network:
     # external: true
