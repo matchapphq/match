@@ -8,3 +8,5 @@ node_modules/
 
 .gemini/
 gha-creds-*.json
+.env
+inventory.ini

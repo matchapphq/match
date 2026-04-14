@@ -1,0 +1,43 @@
+- name: Clone or update repo and run docker compose
+  hosts: matchapp
+  become: true
+  
+  vars:
+    repo_url: "git@github.com:matchapphq/match.git"
+    app_dir: "/opt/match"
+    repo_version: "main"
+
+  tasks:
+    - name: Ensure git is installed
+      ansible.builtin.package:
+        name: git
+        state: present
+        update_cache: true
+    
+    - name: Clone or update repo
+      ansible.builtin.git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: "{{ repo_version }}"
+        update: true
+        accept_hostkey: true
+        recursive: true
+      register: git_result
+
+    - name: Write env file
+      ansible.builtin.template:
+        src: "templates/env.prod.j2"
+        dest: "{{ app_dir }}/.env"
+        mode: "0600"
+        
+    - name: Run docker compose build
+      ansible.builtin.command: docker compose build
+      args:
+        chdir: "{{ app_dir }}"
+      when: git_result.after is defined
+
+    - name: Run docker compose up -d
+      ansible.builtin.command: docker compose up -d --remove-orphans
+      args:
+        chdir: "{{ app_dir }}"
+      when: git_result.after is defined
