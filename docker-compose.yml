@@ -8,11 +8,13 @@ services:
     expose:
         - "8008"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.match-api.rule=Host(`api2.matchapp.fr`)"
-      - "traefik.http.routers.match-api.entrypoints=websecure"
-      - "traefik.http.routers.match-api.tls=true"
-      - "traefik.http.services.match-api.loadbalancer.server.port=8008"
+        # API: apiDev.matchapp.fr
+        - "traefik.http.routers.match-api.rule=Host(`api2.matchapp.fr`)"
+        - "traefik.http.routers.match-api.entrypoints=websecure"
+        - "traefik.http.routers.match-api.service=match-api"
+        - "traefik.http.routers.match-api.tls=true"
+        - "traefik.http.routers.match-api.tls.certresolver=myresolver"
+        - "traefik.http.services.match-api.loadbalancer.server.port=8008"
     environment:
       - NODE_ENV=production
       - DATABASE_HOST=${DATABASE_HOST}
@@ -151,11 +153,13 @@ services:
     expose:
       - "3001"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.match.rule=Host(`dev.matchapp.fr`)"
-      - "traefik.http.routers.match.entrypoints=websecure"
-      - "traefik.http.routers.match.tls=true"
-      - "traefik.http.services.match.loadbalancer.server.port=3001"
+        # Frontend: dev.matchapp.fr
+        - "traefik.http.routers.match.rule=Host(`dev.matchapp.fr`)"
+        - "traefik.http.routers.match.entrypoints=websecure"
+        - "traefik.http.routers.match.service=match"
+        - "traefik.http.routers.match.tls=true"
+        - "traefik.http.routers.match.tls.certresolver=myresolver"
+        - "traefik.http.services.match.loadbalancer.server.port=3001"
     networks:
       - match-network
       - dokploy-network
@@ -172,10 +176,11 @@ services:
     networks:
       - dokploy-network
     labels:
-        - "traefik.enable=true"
+        # Portainer: portainer.matchapp.fr
         - "traefik.http.routers.portainer.rule=Host(`portainer.matchapp.fr`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.routers.portainer.tls=true"
+        - "traefik.http.routers.portainer.tls.certresolver=myresolver"
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     
   traefik:
@@ -211,28 +216,7 @@ services:
         - "traefik.http.routers.traefik-dashboard.tls=true"
         - "traefik.http.routers.traefik-dashboard.tls.certresolver=myresolver"
   
-        # Frontend: dev.matchapp.fr
-        - "traefik.http.routers.match.rule=Host(`dev.matchapp.fr`)"
-        - "traefik.http.routers.match.entrypoints=websecure"
-        - "traefik.http.routers.match.service=match"
-        - "traefik.http.routers.match.tls=true"
-        - "traefik.http.routers.match.tls.certresolver=myresolver"
-        - "traefik.http.services.match.loadbalancer.server.port=3001"
-  
-        # API: apiDev.matchapp.fr
-        - "traefik.http.routers.match-api.rule=Host(`api2.matchapp.fr`)"
-        - "traefik.http.routers.match-api.entrypoints=websecure"
-        - "traefik.http.routers.match-api.service=match-api"
-        - "traefik.http.routers.match-api.tls=true"
-        - "traefik.http.routers.match-api.tls.certresolver=myresolver"
-        - "traefik.http.services.match-api.loadbalancer.server.port=8008"
-        
-        # Portainer: portainer.matchapp.fr
-        - "traefik.http.routers.portainer.rule=Host(`portainer.matchapp.fr`)"
-        - "traefik.http.routers.portainer.entrypoints=websecure"
-        - "traefik.http.routers.portainer.tls=true"
-        - "traefik.http.routers.portainer.tls.certresolver=myresolver"
-        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+
         
 
 networks:
