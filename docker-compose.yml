@@ -141,13 +141,21 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=${VITE_API_URL}
-    ports:
-      - "3001:3001"
+    # ports:
+    #   - "3001:3001"
     environment:
       - NODE_ENV=production
     depends_on:
       match-api:
         condition: service_started
+    expose:
+      - "3001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.match.rule=Host(`dev.matchapp.fr`)"
+      - "traefik.http.routers.match.entrypoints=websecure"
+      - "traefik.http.routers.match.tls=true"
+      - "traefik.http.services.match.loadbalancer.server.port=3001"
     networks:
       - match-network
       - dokploy-network
