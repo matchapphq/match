@@ -15,6 +15,7 @@ services:
         - "traefik.http.routers.match-api.tls=true"
         - "traefik.http.routers.match-api.tls.certresolver=myresolver"
         - "traefik.http.services.match-api.loadbalancer.server.port=8008"
+        - "traefik.enable=true"
     environment:
       - NODE_ENV=production
       - DATABASE_HOST=${DATABASE_HOST}
@@ -69,6 +70,8 @@ services:
             condition: service_started
         portainer:
             condition: service_started
+        traefik:
+            condition: service_started
     deploy:
         mode: replicated
         replicas: 2
@@ -102,6 +105,8 @@ services:
     depends_on:
         redis-match:
             condition: service_healthy
+        traefik:
+            condition: service_started
 
   redis-match:
     image: redis:7-alpine
@@ -150,10 +155,13 @@ services:
     depends_on:
       match-api:
         condition: service_started
+      traefik:
+        condition: service_started
     expose:
       - "3001"
     labels:
         # Frontend: dev.matchapp.fr
+        - "traefik.enable=true"
         - "traefik.http.routers.match.rule=Host(`dev.matchapp.fr`)"
         - "traefik.http.routers.match.entrypoints=websecure"
         - "traefik.http.routers.match.service=match"
@@ -177,11 +185,15 @@ services:
       - dokploy-network
     labels:
         # Portainer: portainer.matchapp.fr
+        - "traefik.enable=true"
         - "traefik.http.routers.portainer.rule=Host(`portainer.matchapp.fr`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.routers.portainer.tls=true"
         - "traefik.http.routers.portainer.tls.certresolver=myresolver"
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+    depends_on:
+        traefik:
+            condition: service_started
     
   traefik:
       image: traefik:latest
