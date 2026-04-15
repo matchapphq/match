@@ -3,8 +3,16 @@ services:
     build:
       context: ./match-api
       dockerfile: Dockerfile
-    ports:
-      - "8008:8008"
+    # ports:
+    #   - "8008:8008"
+    expose:
+        - "8008"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.match-api.rule=Host(`apiDev.matchapp.fr`)"
+      - "traefik.http.routers.match-api.entrypoints=websecure"
+      - "traefik.http.routers.match-api.tls=true"
+      - "traefik.http.services.match-api.loadbalancer.server.port=8008"
     environment:
       - NODE_ENV=production
       - DATABASE_HOST=${DATABASE_HOST}
