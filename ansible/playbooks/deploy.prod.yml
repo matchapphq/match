@@ -32,13 +32,13 @@
 
     - name: Ensure letsencrypt dir exists
       ansible.builtin.file:
-        path: "{{ project_dir }}/letsencrypt"
+        path: "{{ app_dir }}/letsencrypt"
         state: directory
         mode: "0755"
     
     - name: Ensure acme.json exists with strict permissions
       ansible.builtin.file:
-        path: "{{ project_dir }}/letsencrypt/acme.json"
+        path: "{{ app_dir }}/letsencrypt/acme.json"
         state: touch
         mode: "0600"
 
