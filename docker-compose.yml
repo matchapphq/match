@@ -164,13 +164,19 @@ services:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - portainer_data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
     ports:
-    - "9000:9000"
+        - "9000:9000"
     restart: unless-stopped
     networks:
       - dokploy-network
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.portainer.rule=Host(`portainer.matchapp.fr`)"
+        - "traefik.http.routers.portainer.entrypoints=websecure"
+        - "traefik.http.routers.portainer.tls=true"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     
   traefik:
     image: traefik:latest
@@ -220,6 +226,14 @@ services:
         - "traefik.http.routers.match-api.tls=true"
         - "traefik.http.routers.match-api.tls.certresolver=myresolver"
         - "traefik.http.services.match-api.loadbalancer.server.port=8008"
+        
+        # Portainer: portainer.matchapp.fr
+        - "traefik.http.routers.portainer.rule=Host(`portainer.matchapp.fr`)"
+        - "traefik.http.routers.portainer.entrypoints=websecure"
+        - "traefik.http.routers.portainer.tls=true"
+        - "traefik.http.routers.portainer.tls.certresolver=myresolver"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        
 
 networks:
   dokploy-network:
