@@ -65,6 +65,8 @@ services:
             condition: service_started
         redis-match:
             condition: service_started
+        portainer:
+            condition: service_started
     deploy:
         mode: replicated
         replicas: 2
