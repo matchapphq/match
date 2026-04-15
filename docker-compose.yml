@@ -9,7 +9,7 @@ services:
         - "8008"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.match-api.rule=Host(`apiDev.matchapp.fr`)"
+      - "traefik.http.routers.match-api.rule=Host(`api2.matchapp.fr`)"
       - "traefik.http.routers.match-api.entrypoints=websecure"
       - "traefik.http.routers.match-api.tls=true"
       - "traefik.http.services.match-api.loadbalancer.server.port=8008"
@@ -214,7 +214,7 @@ services:
         - "traefik.http.services.match.loadbalancer.server.port=3001"
   
         # API: apiDev.matchapp.fr
-        - "traefik.http.routers.match-api.rule=Host(`apiDev.matchapp.fr`)"
+        - "traefik.http.routers.match-api.rule=Host(`api2.matchapp.fr`)"
         - "traefik.http.routers.match-api.entrypoints=websecure"
         - "traefik.http.routers.match-api.service=match-api"
         - "traefik.http.routers.match-api.tls=true"
