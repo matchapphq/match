@@ -13,6 +13,17 @@
         name: git
         state: present
         update_cache: true
+    - name: Ensure Docker is installed
+      ansible.builtin.package:
+        name: docker
+        state: present
+        update_cache: true
+
+    - name: Ensure Docker Compose is installed
+      ansible.builtin.package:
+        name: docker-compose
+        state: present
+        update_cache: true      
     
     - name: Clone or update repo
       ansible.builtin.git:
