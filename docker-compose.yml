@@ -113,19 +113,18 @@ services:
     restart: unless-stopped
     command: >
       redis-server
-      --port 6380
       --appendonly yes
       --maxmemory-policy noeviction
       --maxmemory 2gb
       --tcp-keepalive 60
     ports:
-      - "127.0.0.1:6380:6380"
+      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - match-network
     healthcheck:
-      test: ["CMD", "redis-cli", "-p", "6380", "ping"]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 3
