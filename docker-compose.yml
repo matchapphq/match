@@ -108,26 +108,26 @@ services:
         traefik:
             condition: service_started
 
-  redis-match:
-    image: redis:7-alpine
-    restart: unless-stopped
-    command: >
-      redis-server
-      --appendonly yes
-      --maxmemory-policy noeviction
-      --maxmemory 2gb
-      --tcp-keepalive 60
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - match-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
+  # redis-match:
+  #   image: redis:7-alpine
+  #   restart: unless-stopped
+  #   command: >
+  #     redis-server
+  #     --appendonly yes
+  #     --maxmemory-policy noeviction
+  #     --maxmemory 2gb
+  #     --tcp-keepalive 60
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - match-network
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 3s
+  #     retries: 3
     
   redisinsght:
     image: redis/redisinsight:latest
