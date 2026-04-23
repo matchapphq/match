@@ -219,11 +219,19 @@ services:
         - dokploy-network
       labels:
         - "traefik.enable=true"
+
+        # Dashboard (HTTPS)
         - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.matchapp.fr`)"
         - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
         - "traefik.http.routers.traefik-dashboard.service=api@internal"
         - "traefik.http.routers.traefik-dashboard.tls=true"
         - "traefik.http.routers.traefik-dashboard.tls.certresolver=myresolver"
+
+        # ACME HTTP‑01 challenge on port 80 (no redirect!)
+        - "traefik.http.routers.acme-http.rule=PathPrefix(`/.well-known/acme-challenge`)"
+        - "traefik.http.routers.acme-http.entrypoints=web"
+        - "traefik.http.routers.acme-http.service=acme@internal"
+        - "traefik.http.routers.acme-http.priority=100000"
   
 
         
